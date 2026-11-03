@@ -5,7 +5,6 @@ package com.saucedemo.tests;
 import com.saucedemo.config.ConfigReader;
 import com.saucedemo.utils.ExtentReportManager;
 import com.saucedemo.utils.ScreenshotHelper;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -22,28 +21,25 @@ public class BaseTest {
 
     protected WebDriver driver;
 
-    @BeforeSuite
+    @BeforeSuite(alwaysRun = true)
     public void setupSuite() {
         ExtentReportManager.initReport();
     }
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupBrowser() {
         String browser = ConfigReader.getBrowser().toLowerCase();
 
         switch (browser) {
             case "firefox" -> {
-                WebDriverManager.firefoxdriver().setup();
                 FirefoxOptions options = new FirefoxOptions();
                 driver = new FirefoxDriver(options);
             }
             case "edge" -> {
-                WebDriverManager.edgedriver().setup();
                 EdgeOptions options = new EdgeOptions();
                 driver = new EdgeDriver(options);
             }
             default -> {
-                WebDriverManager.chromedriver().setup();
                 ChromeOptions options = new ChromeOptions();
                 driver = new ChromeDriver(options);
             }
@@ -55,16 +51,22 @@ public class BaseTest {
         driver.get(ConfigReader.getBaseUrl());
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
-        if (result.getStatus() == ITestResult.FAILURE) {
-            String screenshotPath = ScreenshotHelper.capture(driver, result.getName());
-            ExtentReportManager.getTest().fail("Test failed: " + result.getThrowable())
-                    .addScreenCaptureFromPath(screenshotPath);
-        } else if (result.getStatus() == ITestResult.SUCCESS) {
-            ExtentReportManager.getTest().pass("Test passed");
-        } else {
-            ExtentReportManager.getTest().skip("Test skipped: " + result.getThrowable());
+        if (ExtentReportManager.getTest() != null) {
+            if (result.getStatus() == ITestResult.FAILURE) {
+                if (driver != null) {
+                    String screenshotPath = ScreenshotHelper.capture(driver, result.getName());
+                    ExtentReportManager.getTest().fail("Test failed: " + result.getThrowable())
+                            .addScreenCaptureFromPath(screenshotPath);
+                } else {
+                    ExtentReportManager.getTest().fail("Test failed: " + result.getThrowable());
+                }
+            } else if (result.getStatus() == ITestResult.SUCCESS) {
+                ExtentReportManager.getTest().pass("Test passed");
+            } else {
+                ExtentReportManager.getTest().skip("Test skipped: " + result.getThrowable());
+            }
         }
 
         if (driver != null) {
@@ -72,7 +74,7 @@ public class BaseTest {
         }
     }
 
-    @AfterSuite
+    @AfterSuite(alwaysRun = true)
     public void tearDownSuite() {
         ExtentReportManager.flushReport();
     }

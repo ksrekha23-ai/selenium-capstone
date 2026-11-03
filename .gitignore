@@ -2,6 +2,7 @@ target/
 screenshots/
 reports/
 .idea/
+.vscode/
 *.iml
 *.class
 *.log

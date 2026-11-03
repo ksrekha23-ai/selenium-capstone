@@ -12,7 +12,7 @@ public class ExtentReportManager {
     private static ExtentReports extent;
     private static final ThreadLocal<ExtentTest> test = new ThreadLocal<>();
 
-    public static void initReport() {
+    public static synchronized void initReport() {
         if (extent == null) {
             ExtentSparkReporter spark = new ExtentSparkReporter("reports/TestReport.html");
             spark.config().setDocumentTitle("SauceDemo Test Report");
@@ -28,6 +28,7 @@ public class ExtentReportManager {
     }
 
     public static ExtentTest createTest(String testName) {
+        initReport();
         ExtentTest extentTest = extent.createTest(testName);
         test.set(extentTest);
         return extentTest;

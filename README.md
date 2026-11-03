@@ -4,7 +4,7 @@ A complete test automation framework for [SauceDemo](https://www.saucedemo.com) 
 
 ## Prerequisites
 
-- **JDK 11 or later** (tested with JDK 17) with `JAVA_HOME` configured
+- **JDK 17 or later** with `JAVA_HOME` configured
 - **Maven 3.6+** installed and available on `PATH`
 - **Chrome browser** installed (default) or Firefox/Edge
 - **Git** for version control
@@ -115,8 +115,8 @@ Screenshots of failed tests are saved to `screenshots/` with the format `TestNam
 ## Technologies
 
 - Java 17
-- Selenium WebDriver 4.25
+- Selenium WebDriver 4.52
 - TestNG 7.10
 - ExtentReports 5.1
-- WebDriverManager 5.9
+- WebDriverManager 6.4
 - Maven 3.9
