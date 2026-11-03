@@ -1,0 +1,79 @@
+// ABOUTME: Base test class providing shared browser setup, teardown, and reporting hooks.
+// ABOUTME: All test classes extend this to get automatic browser management and failure screenshots.
+package com.saucedemo.tests;
+
+import com.saucedemo.config.ConfigReader;
+import com.saucedemo.utils.ExtentReportManager;
+import com.saucedemo.utils.ScreenshotHelper;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
+
+import java.time.Duration;
+
+public class BaseTest {
+
+    protected WebDriver driver;
+
+    @BeforeSuite
+    public void setupSuite() {
+        ExtentReportManager.initReport();
+    }
+
+    @BeforeMethod
+    public void setupBrowser() {
+        String browser = ConfigReader.getBrowser().toLowerCase();
+
+        switch (browser) {
+            case "firefox" -> {
+                WebDriverManager.firefoxdriver().setup();
+                FirefoxOptions options = new FirefoxOptions();
+                driver = new FirefoxDriver(options);
+            }
+            case "edge" -> {
+                WebDriverManager.edgedriver().setup();
+                EdgeOptions options = new EdgeOptions();
+                driver = new EdgeDriver(options);
+            }
+            default -> {
+                WebDriverManager.chromedriver().setup();
+                ChromeOptions options = new ChromeOptions();
+                driver = new ChromeDriver(options);
+            }
+        }
+
+        driver.manage().window().maximize();
+        driver.manage().timeouts().pageLoadTimeout(
+                Duration.ofSeconds(ConfigReader.getPageLoadTimeoutSeconds()));
+        driver.get(ConfigReader.getBaseUrl());
+    }
+
+    @AfterMethod
+    public void tearDown(ITestResult result) {
+        if (result.getStatus() == ITestResult.FAILURE) {
+            String screenshotPath = ScreenshotHelper.capture(driver, result.getName());
+            ExtentReportManager.getTest().fail("Test failed: " + result.getThrowable())
+                    .addScreenCaptureFromPath(screenshotPath);
+        } else if (result.getStatus() == ITestResult.SUCCESS) {
+            ExtentReportManager.getTest().pass("Test passed");
+        } else {
+            ExtentReportManager.getTest().skip("Test skipped: " + result.getThrowable());
+        }
+
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
+    @AfterSuite
+    public void tearDownSuite() {
+        ExtentReportManager.flushReport();
+    }
+}
