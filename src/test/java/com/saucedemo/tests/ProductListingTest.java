@@ -29,6 +29,18 @@ public class ProductListingTest extends BaseTest {
     }
 
     @Test(groups = {"regression", "products"})
+    public void unauthenticatedUserCannotOpenProductsPage() {
+        ExtentReportManager.createTest("unauthenticatedUserCannotOpenProductsPage");
+        driver.get(ConfigReader.getBaseUrl() + "/inventory.html");
+
+        LoginPage loginPage = new LoginPage(driver);
+        Assert.assertTrue(loginPage.isLoginPageDisplayed(),
+                "Unauthenticated users should be redirected to the login page");
+        Assert.assertFalse(driver.getCurrentUrl().contains("inventory"),
+                "Unauthenticated users should not remain on the products page");
+    }
+
+    @Test(groups = {"regression", "products"})
     public void sortByNameAZ() {
         ExtentReportManager.createTest("sortByNameAZ");
         loginAsStandardUser();

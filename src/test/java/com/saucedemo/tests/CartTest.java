@@ -21,6 +21,17 @@ public class CartTest extends BaseTest {
     }
 
     @Test(groups = {"regression", "cart"})
+    public void cartIsEmptyBeforeAddingItems() {
+        ExtentReportManager.createTest("cartIsEmptyBeforeAddingItems");
+        ProductsPage productsPage = loginAndGoToProducts();
+        productsPage.goToCart();
+
+        CartPage cartPage = new CartPage(driver);
+        Assert.assertTrue(cartPage.isCartEmpty(),
+                "Cart should be empty before any products are added");
+    }
+
+    @Test(groups = {"regression", "cart"})
     public void addSingleItem() {
         ExtentReportManager.createTest("addSingleItem");
         ProductsPage productsPage = loginAndGoToProducts();
