@@ -2,15 +2,19 @@
 // ABOUTME: Verifies authentication behavior including locked users, empty fields, and session handling.
 package com.saucedemo.tests;
 
+import com.google.gson.JsonObject;
 import com.saucedemo.config.ConfigReader;
 import com.saucedemo.pages.LoginPage;
 import com.saucedemo.pages.NavigationPage;
 import com.saucedemo.pages.ProductsPage;
 import com.saucedemo.utils.ExtentReportManager;
+import com.saucedemo.utils.TestDataReader;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class LoginTest extends BaseTest {
+
+    private static final JsonObject TEST_DATA = TestDataReader.load("login-test-data.json");
 
     @Test(groups = {"smoke", "login"})
     public void validLogin() {
@@ -21,7 +25,8 @@ public class LoginTest extends BaseTest {
         ProductsPage productsPage = new ProductsPage(driver);
         Assert.assertTrue(productsPage.isOnProductsPage(),
                 "Products page should be displayed after valid login");
-        Assert.assertTrue(driver.getCurrentUrl().contains("inventory"),
+        Assert.assertTrue(driver.getCurrentUrl().contains(
+                        TestDataReader.getString(TEST_DATA, "urlFragments.inventory")),
                 "URL should contain 'inventory' after successful login");
     }
 
@@ -29,11 +34,13 @@ public class LoginTest extends BaseTest {
     public void invalidPassword() {
         ExtentReportManager.createTest("invalidPassword");
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.login(ConfigReader.getStandardUsername(), "wrong_password");
+        loginPage.login(ConfigReader.getStandardUsername(),
+                TestDataReader.getString(TEST_DATA, "invalidPassword"));
 
         Assert.assertTrue(loginPage.isErrorDisplayed(),
                 "Error message should be displayed for invalid password");
-        Assert.assertTrue(loginPage.getErrorMessage().contains("Username and password do not match"),
+        Assert.assertTrue(loginPage.getErrorMessage().contains(
+                        TestDataReader.getString(TEST_DATA, "errorMessages.invalidCredentials")),
                 "Error should mention mismatched credentials");
     }
 
@@ -45,7 +52,8 @@ public class LoginTest extends BaseTest {
 
         Assert.assertTrue(loginPage.isErrorDisplayed(),
                 "Error message should be displayed for empty fields");
-        Assert.assertTrue(loginPage.getErrorMessage().contains("Username is required"),
+        Assert.assertTrue(loginPage.getErrorMessage().contains(
+                        TestDataReader.getString(TEST_DATA, "errorMessages.usernameRequired")),
                 "Error should indicate username is required");
     }
 
@@ -58,7 +66,8 @@ public class LoginTest extends BaseTest {
 
         Assert.assertTrue(loginPage.isErrorDisplayed(),
                 "Error message should be displayed for empty password");
-        Assert.assertTrue(loginPage.getErrorMessage().contains("Password is required"),
+        Assert.assertTrue(loginPage.getErrorMessage().contains(
+                        TestDataReader.getString(TEST_DATA, "errorMessages.passwordRequired")),
                 "Error should indicate password is required");
     }
 
@@ -93,7 +102,8 @@ public class LoginTest extends BaseTest {
 
         driver.navigate().back();
 
-        Assert.assertFalse(driver.getCurrentUrl().contains("inventory"),
+        Assert.assertFalse(driver.getCurrentUrl().contains(
+                        TestDataReader.getString(TEST_DATA, "urlFragments.inventory")),
                 "Should not be able to access inventory page after logout via back button");
     }
 }

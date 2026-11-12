@@ -2,23 +2,38 @@
 // ABOUTME: Provides access to order summary, item total, tax, grand total, and finish action.
 package com.saucedemo.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CheckoutStepTwoPage extends BasePage {
 
-    private final By cartItems = By.className("cart_item");
-    private final By itemNames = By.className("inventory_item_name");
-    private final By itemPrices = By.className("inventory_item_price");
-    private final By subtotalLabel = By.className("summary_subtotal_label");
-    private final By taxLabel = By.className("summary_tax_label");
-    private final By totalLabel = By.className("summary_total_label");
-    private final By finishButton = By.id("finish");
-    private final By cancelButton = By.id("cancel");
+    @FindBy(className = "cart_item")
+    private List<WebElement> cartItems;
+
+    @FindBy(className = "inventory_item_name")
+    private List<WebElement> itemNames;
+
+    @FindBy(className = "inventory_item_price")
+    private List<WebElement> itemPrices;
+
+    @FindBy(className = "summary_subtotal_label")
+    private WebElement subtotalLabel;
+
+    @FindBy(className = "summary_tax_label")
+    private WebElement taxLabel;
+
+    @FindBy(className = "summary_total_label")
+    private WebElement totalLabel;
+
+    @FindBy(id = "finish")
+    private WebElement finishButton;
+
+    @FindBy(id = "cancel")
+    private WebElement cancelButton;
 
     public CheckoutStepTwoPage(WebDriver driver) {
         super(driver);

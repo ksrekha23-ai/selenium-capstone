@@ -1,0 +1,12 @@
+{
+  "products": {
+    "backpack": "Sauce Labs Backpack",
+    "bikeLight": "Sauce Labs Bike Light"
+  },
+  "shippingInfo": {
+    "firstName": "Test",
+    "lastName": "User",
+    "zipCode": "12345"
+  },
+  "confirmationHeader": "Thank you for your order!"
+}

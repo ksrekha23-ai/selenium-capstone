@@ -1,0 +1,12 @@
+{
+  "expectedProductCount": 6,
+  "sortOptions": {
+    "nameAZ": "az",
+    "nameZA": "za",
+    "priceLowHigh": "lohi",
+    "priceHighLow": "hilo"
+  },
+  "restrictedPaths": {
+    "inventoryPage": "/inventory.html"
+  }
+}

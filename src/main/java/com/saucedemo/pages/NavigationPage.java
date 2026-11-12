@@ -2,18 +2,32 @@
 // ABOUTME: Handles hamburger menu interactions including logout, reset, and navigation links.
 package com.saucedemo.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class NavigationPage extends BasePage {
 
-    private final By menuButton = By.id("react-burger-menu-btn");
-    private final By closeMenuButton = By.id("react-burger-cross-btn");
-    private final By allItemsLink = By.id("inventory_sidebar_link");
-    private final By aboutLink = By.id("about_sidebar_link");
-    private final By logoutLink = By.id("logout_sidebar_link");
-    private final By resetLink = By.id("reset_sidebar_link");
-    private final By menuWrap = By.className("bm-menu-wrap");
+    @FindBy(id = "react-burger-menu-btn")
+    private WebElement menuButton;
+
+    @FindBy(id = "react-burger-cross-btn")
+    private WebElement closeMenuButton;
+
+    @FindBy(id = "inventory_sidebar_link")
+    private WebElement allItemsLink;
+
+    @FindBy(id = "about_sidebar_link")
+    private WebElement aboutLink;
+
+    @FindBy(id = "logout_sidebar_link")
+    private WebElement logoutLink;
+
+    @FindBy(id = "reset_sidebar_link")
+    private WebElement resetLink;
+
+    @FindBy(className = "bm-menu-wrap")
+    private WebElement menuWrap;
 
     public NavigationPage(WebDriver driver) {
         super(driver);
@@ -21,6 +35,10 @@ public class NavigationPage extends BasePage {
 
     public void openMenu() {
         click(menuButton);
+        waitHelper.waitFor(d -> {
+            String transform = menuWrap.getCssValue("transform");
+            return "none".equals(transform) || transform.matches(".*,\\s*0,\\s*0\\)$");
+        });
     }
 
     public void closeMenu() {

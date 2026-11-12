@@ -2,17 +2,29 @@
 // ABOUTME: Provides access to product name, price, description, and add-to-cart from detail view.
 package com.saucedemo.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class ProductDetailPage extends BasePage {
 
-    private final By productName = By.className("inventory_details_name");
-    private final By productPrice = By.className("inventory_details_price");
-    private final By productDescription = By.className("inventory_details_desc");
-    private final By addToCartButton = By.cssSelector("[data-test^='add-to-cart']");
-    private final By removeButton = By.cssSelector("[data-test^='remove']");
-    private final By backButton = By.id("back-to-products");
+    @FindBy(className = "inventory_details_name")
+    private WebElement productName;
+
+    @FindBy(className = "inventory_details_price")
+    private WebElement productPrice;
+
+    @FindBy(className = "inventory_details_desc")
+    private WebElement productDescription;
+
+    @FindBy(css = "[data-test^='add-to-cart']")
+    private WebElement addToCartButton;
+
+    @FindBy(css = "[data-test^='remove']")
+    private WebElement removeButton;
+
+    @FindBy(id = "back-to-products")
+    private WebElement backButton;
 
     public ProductDetailPage(WebDriver driver) {
         super(driver);

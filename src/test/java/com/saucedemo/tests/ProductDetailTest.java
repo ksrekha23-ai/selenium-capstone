@@ -2,17 +2,21 @@
 // ABOUTME: Verifies detail page content matches listing data, add-to-cart works, and back navigation.
 package com.saucedemo.tests;
 
+import com.google.gson.JsonObject;
 import com.saucedemo.config.ConfigReader;
 import com.saucedemo.pages.LoginPage;
 import com.saucedemo.pages.ProductDetailPage;
 import com.saucedemo.pages.ProductsPage;
 import com.saucedemo.utils.ExtentReportManager;
+import com.saucedemo.utils.TestDataReader;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
 public class ProductDetailTest extends BaseTest {
+
+    private static final JsonObject TEST_DATA = TestDataReader.load("product-detail-test-data.json");
 
     private void loginAsStandardUser() {
         LoginPage loginPage = new LoginPage(driver);
@@ -31,19 +35,22 @@ public class ProductDetailTest extends BaseTest {
         ProductDetailPage detailPage = new ProductDetailPage(driver);
         Assert.assertFalse(detailPage.getProductName().isEmpty(),
                 "Product name should be displayed on detail page");
-        Assert.assertTrue(driver.getCurrentUrl().contains("inventory-item"),
+        Assert.assertTrue(driver.getCurrentUrl().contains(
+                        TestDataReader.getString(TEST_DATA, "urlFragments.inventoryItem")),
                 "URL should contain 'inventory-item' on detail page");
     }
 
     @Test(groups = {"regression", "products"})
     public void unauthenticatedUserCannotOpenProductDetailPage() {
         ExtentReportManager.createTest("unauthenticatedUserCannotOpenProductDetailPage");
-        driver.get(ConfigReader.getBaseUrl() + "/inventory-item.html?id=4");
+        driver.get(ConfigReader.getBaseUrl()
+                + TestDataReader.getString(TEST_DATA, "restrictedPaths.inventoryItemPage"));
 
         LoginPage loginPage = new LoginPage(driver);
         Assert.assertTrue(loginPage.isLoginPageDisplayed(),
                 "Unauthenticated users should be redirected to the login page");
-        Assert.assertFalse(driver.getCurrentUrl().contains("inventory-item"),
+        Assert.assertFalse(driver.getCurrentUrl().contains(
+                        TestDataReader.getString(TEST_DATA, "urlFragments.inventoryItem")),
                 "Unauthenticated users should not remain on the product detail page");
     }
 

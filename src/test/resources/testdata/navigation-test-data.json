@@ -1,0 +1,8 @@
+{
+  "products": {
+    "backpack": "Sauce Labs Backpack"
+  },
+  "urlFragments": {
+    "aboutPage": "saucelabs.com"
+  }
+}

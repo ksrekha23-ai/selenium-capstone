@@ -5,19 +5,33 @@ package com.saucedemo.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ProductsPage extends BasePage {
 
-    private final By pageTitle = By.className("title");
-    private final By inventoryItems = By.className("inventory_item");
-    private final By productNames = By.className("inventory_item_name");
-    private final By productPrices = By.className("inventory_item_price");
-    private final By sortDropdown = By.className("product_sort_container");
-    private final By cartBadge = By.className("shopping_cart_badge");
-    private final By cartLink = By.className("shopping_cart_link");
+    @FindBy(className = "title")
+    private WebElement pageTitle;
+
+    @FindBy(className = "inventory_item")
+    private List<WebElement> inventoryItems;
+
+    @FindBy(className = "inventory_item_name")
+    private List<WebElement> productNames;
+
+    @FindBy(className = "inventory_item_price")
+    private List<WebElement> productPrices;
+
+    @FindBy(className = "product_sort_container")
+    private WebElement sortDropdown;
+
+    @FindBy(className = "shopping_cart_badge")
+    private WebElement cartBadge;
+
+    @FindBy(className = "shopping_cart_link")
+    private WebElement cartLink;
 
     public ProductsPage(WebDriver driver) {
         super(driver);

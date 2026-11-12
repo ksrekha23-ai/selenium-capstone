@@ -1,0 +1,8 @@
+{
+  "restrictedPaths": {
+    "inventoryItemPage": "/inventory-item.html?id=4"
+  },
+  "urlFragments": {
+    "inventoryItem": "inventory-item"
+  }
+}

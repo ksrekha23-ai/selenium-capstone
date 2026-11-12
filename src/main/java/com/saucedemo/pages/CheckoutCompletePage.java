@@ -2,14 +2,20 @@
 // ABOUTME: Verifies order success by checking the confirmation header and message text.
 package com.saucedemo.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class CheckoutCompletePage extends BasePage {
 
-    private final By completeHeader = By.className("complete-header");
-    private final By completeText = By.className("complete-text");
-    private final By backHomeButton = By.id("back-to-products");
+    @FindBy(className = "complete-header")
+    private WebElement completeHeader;
+
+    @FindBy(className = "complete-text")
+    private WebElement completeText;
+
+    @FindBy(id = "back-to-products")
+    private WebElement backHomeButton;
 
     public CheckoutCompletePage(WebDriver driver) {
         super(driver);

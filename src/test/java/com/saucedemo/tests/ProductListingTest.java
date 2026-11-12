@@ -2,16 +2,20 @@
 // ABOUTME: Verifies product display count and correct ordering for all four sort options.
 package com.saucedemo.tests;
 
+import com.google.gson.JsonObject;
 import com.saucedemo.config.ConfigReader;
 import com.saucedemo.pages.LoginPage;
 import com.saucedemo.pages.ProductsPage;
 import com.saucedemo.utils.ExtentReportManager;
+import com.saucedemo.utils.TestDataReader;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
 public class ProductListingTest extends BaseTest {
+
+    private static final JsonObject TEST_DATA = TestDataReader.load("product-listing-test-data.json");
 
     private void loginAsStandardUser() {
         LoginPage loginPage = new LoginPage(driver);
@@ -24,14 +28,16 @@ public class ProductListingTest extends BaseTest {
         loginAsStandardUser();
 
         ProductsPage productsPage = new ProductsPage(driver);
-        Assert.assertEquals(productsPage.getProductCount(), 6,
-                "Products page should display exactly 6 products");
+        Assert.assertEquals(productsPage.getProductCount(),
+                TestDataReader.getInt(TEST_DATA, "expectedProductCount"),
+                "Products page should display the expected number of products");
     }
 
     @Test(groups = {"regression", "products"})
     public void unauthenticatedUserCannotOpenProductsPage() {
         ExtentReportManager.createTest("unauthenticatedUserCannotOpenProductsPage");
-        driver.get(ConfigReader.getBaseUrl() + "/inventory.html");
+        driver.get(ConfigReader.getBaseUrl()
+                + TestDataReader.getString(TEST_DATA, "restrictedPaths.inventoryPage"));
 
         LoginPage loginPage = new LoginPage(driver);
         Assert.assertTrue(loginPage.isLoginPageDisplayed(),
@@ -46,7 +52,7 @@ public class ProductListingTest extends BaseTest {
         loginAsStandardUser();
 
         ProductsPage productsPage = new ProductsPage(driver);
-        productsPage.sortBy("az");
+        productsPage.sortBy(TestDataReader.getString(TEST_DATA, "sortOptions.nameAZ"));
 
         List<String> names = productsPage.getProductNames();
         for (int i = 0; i < names.size() - 1; i++) {
@@ -61,7 +67,7 @@ public class ProductListingTest extends BaseTest {
         loginAsStandardUser();
 
         ProductsPage productsPage = new ProductsPage(driver);
-        productsPage.sortBy("za");
+        productsPage.sortBy(TestDataReader.getString(TEST_DATA, "sortOptions.nameZA"));
 
         List<String> names = productsPage.getProductNames();
         for (int i = 0; i < names.size() - 1; i++) {
@@ -76,7 +82,7 @@ public class ProductListingTest extends BaseTest {
         loginAsStandardUser();
 
         ProductsPage productsPage = new ProductsPage(driver);
-        productsPage.sortBy("lohi");
+        productsPage.sortBy(TestDataReader.getString(TEST_DATA, "sortOptions.priceLowHigh"));
 
         List<Double> prices = productsPage.getProductPrices();
         for (int i = 0; i < prices.size() - 1; i++) {
@@ -91,7 +97,7 @@ public class ProductListingTest extends BaseTest {
         loginAsStandardUser();
 
         ProductsPage productsPage = new ProductsPage(driver);
-        productsPage.sortBy("hilo");
+        productsPage.sortBy(TestDataReader.getString(TEST_DATA, "sortOptions.priceHighLow"));
 
         List<Double> prices = productsPage.getProductPrices();
         for (int i = 0; i < prices.size() - 1; i++) {

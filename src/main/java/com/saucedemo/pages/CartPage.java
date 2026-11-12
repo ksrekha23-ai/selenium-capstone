@@ -5,18 +5,30 @@ package com.saucedemo.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CartPage extends BasePage {
 
-    private final By cartItems = By.className("cart_item");
-    private final By itemNames = By.className("inventory_item_name");
-    private final By itemPrices = By.className("inventory_item_price");
-    private final By itemQuantities = By.className("cart_quantity");
-    private final By checkoutButton = By.id("checkout");
-    private final By continueShoppingButton = By.id("continue-shopping");
+    @FindBy(className = "cart_item")
+    private List<WebElement> cartItems;
+
+    @FindBy(className = "inventory_item_name")
+    private List<WebElement> itemNames;
+
+    @FindBy(className = "inventory_item_price")
+    private List<WebElement> itemPrices;
+
+    @FindBy(className = "cart_quantity")
+    private List<WebElement> itemQuantities;
+
+    @FindBy(id = "checkout")
+    private WebElement checkoutButton;
+
+    @FindBy(id = "continue-shopping")
+    private WebElement continueShoppingButton;
 
     public CartPage(WebDriver driver) {
         super(driver);
@@ -57,7 +69,7 @@ public class CartPage extends BasePage {
 
     public boolean isCartEmpty() {
         try {
-            return driver.findElements(cartItems).isEmpty();
+            return cartItems.isEmpty();
         } catch (Exception e) {
             return true;
         }

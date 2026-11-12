@@ -1,0 +1,11 @@
+{
+  "invalidPassword": "wrong_password",
+  "errorMessages": {
+    "invalidCredentials": "Username and password do not match",
+    "usernameRequired": "Username is required",
+    "passwordRequired": "Password is required"
+  },
+  "urlFragments": {
+    "inventory": "inventory"
+  }
+}

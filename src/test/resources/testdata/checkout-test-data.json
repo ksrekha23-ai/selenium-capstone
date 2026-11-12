@@ -1,0 +1,16 @@
+{
+  "products": {
+    "backpack": "Sauce Labs Backpack"
+  },
+  "shippingInfo": {
+    "firstName": "Test",
+    "lastName": "User",
+    "zipCode": "12345"
+  },
+  "confirmationHeader": "Thank you for your order!",
+  "errorMessages": {
+    "firstNameRequired": "Error: First Name is required",
+    "lastNameRequired": "Error: Last Name is required",
+    "postalCodeRequired": "Error: Postal Code is required"
+  }
+}

@@ -23,7 +23,7 @@ public class ConfigReader {
     }
 
     public static String getBrowser() {
-        return properties.getProperty("browser", "chrome");
+        return properties.getProperty("browser", "edge");
     }
 
     public static String getBaseUrl() {

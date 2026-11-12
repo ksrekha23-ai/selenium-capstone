@@ -2,9 +2,11 @@
 // ABOUTME: Covers complete checkout, missing field errors, order summary, and price calculations.
 package com.saucedemo.tests;
 
+import com.google.gson.JsonObject;
 import com.saucedemo.config.ConfigReader;
 import com.saucedemo.pages.*;
 import com.saucedemo.utils.ExtentReportManager;
+import com.saucedemo.utils.TestDataReader;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -12,12 +14,15 @@ import java.util.List;
 
 public class CheckoutTest extends BaseTest {
 
+    private static final JsonObject TEST_DATA = TestDataReader.load("checkout-test-data.json");
+
     private CheckoutStepOnePage loginAddItemAndGoToCheckout() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login(ConfigReader.getStandardUsername(), ConfigReader.getStandardPassword());
 
         ProductsPage productsPage = new ProductsPage(driver);
-        productsPage.addProductToCartByName("Sauce Labs Backpack");
+        productsPage.addProductToCartByName(
+                TestDataReader.getString(TEST_DATA, "products.backpack"));
         productsPage.goToCart();
 
         CartPage cartPage = new CartPage(driver);
@@ -31,14 +36,18 @@ public class CheckoutTest extends BaseTest {
         ExtentReportManager.createTest("completeCheckoutFlow");
         CheckoutStepOnePage stepOne = loginAddItemAndGoToCheckout();
 
-        stepOne.fillShippingInfo("Test", "User", "12345");
+        stepOne.fillShippingInfo(
+                TestDataReader.getString(TEST_DATA, "shippingInfo.firstName"),
+                TestDataReader.getString(TEST_DATA, "shippingInfo.lastName"),
+                TestDataReader.getString(TEST_DATA, "shippingInfo.zipCode"));
         stepOne.clickContinue();
 
         CheckoutStepTwoPage stepTwo = new CheckoutStepTwoPage(driver);
         stepTwo.clickFinish();
 
         CheckoutCompletePage completePage = new CheckoutCompletePage(driver);
-        Assert.assertEquals(completePage.getCompleteHeader(), "Thank you for your order!",
+        Assert.assertEquals(completePage.getCompleteHeader(),
+                TestDataReader.getString(TEST_DATA, "confirmationHeader"),
                 "Order confirmation header should match");
     }
 
@@ -50,7 +59,8 @@ public class CheckoutTest extends BaseTest {
         stepOne.clickContinue();
 
         Assert.assertTrue(stepOne.isErrorDisplayed(), "Error message should be displayed");
-        Assert.assertEquals(stepOne.getErrorMessage(), "Error: First Name is required",
+        Assert.assertEquals(stepOne.getErrorMessage(),
+                TestDataReader.getString(TEST_DATA, "errorMessages.firstNameRequired"),
                 "Error should indicate first name is required");
     }
 
@@ -59,11 +69,13 @@ public class CheckoutTest extends BaseTest {
         ExtentReportManager.createTest("missingLastName");
         CheckoutStepOnePage stepOne = loginAddItemAndGoToCheckout();
 
-        stepOne.enterFirstName("Test");
+        stepOne.enterFirstName(
+                TestDataReader.getString(TEST_DATA, "shippingInfo.firstName"));
         stepOne.clickContinue();
 
         Assert.assertTrue(stepOne.isErrorDisplayed(), "Error message should be displayed");
-        Assert.assertEquals(stepOne.getErrorMessage(), "Error: Last Name is required",
+        Assert.assertEquals(stepOne.getErrorMessage(),
+                TestDataReader.getString(TEST_DATA, "errorMessages.lastNameRequired"),
                 "Error should indicate last name is required");
     }
 
@@ -72,12 +84,15 @@ public class CheckoutTest extends BaseTest {
         ExtentReportManager.createTest("missingZipCode");
         CheckoutStepOnePage stepOne = loginAddItemAndGoToCheckout();
 
-        stepOne.enterFirstName("Test");
-        stepOne.enterLastName("User");
+        stepOne.enterFirstName(
+                TestDataReader.getString(TEST_DATA, "shippingInfo.firstName"));
+        stepOne.enterLastName(
+                TestDataReader.getString(TEST_DATA, "shippingInfo.lastName"));
         stepOne.clickContinue();
 
         Assert.assertTrue(stepOne.isErrorDisplayed(), "Error message should be displayed");
-        Assert.assertEquals(stepOne.getErrorMessage(), "Error: Postal Code is required",
+        Assert.assertEquals(stepOne.getErrorMessage(),
+                TestDataReader.getString(TEST_DATA, "errorMessages.postalCodeRequired"),
                 "Error should indicate postal code is required");
     }
 
@@ -86,7 +101,10 @@ public class CheckoutTest extends BaseTest {
         ExtentReportManager.createTest("verifyOrderSummary");
         CheckoutStepOnePage stepOne = loginAddItemAndGoToCheckout();
 
-        stepOne.fillShippingInfo("Test", "User", "12345");
+        stepOne.fillShippingInfo(
+                TestDataReader.getString(TEST_DATA, "shippingInfo.firstName"),
+                TestDataReader.getString(TEST_DATA, "shippingInfo.lastName"),
+                TestDataReader.getString(TEST_DATA, "shippingInfo.zipCode"));
         stepOne.clickContinue();
 
         CheckoutStepTwoPage stepTwo = new CheckoutStepTwoPage(driver);
@@ -102,7 +120,10 @@ public class CheckoutTest extends BaseTest {
         ExtentReportManager.createTest("priceTotalCalculation");
         CheckoutStepOnePage stepOne = loginAddItemAndGoToCheckout();
 
-        stepOne.fillShippingInfo("Test", "User", "12345");
+        stepOne.fillShippingInfo(
+                TestDataReader.getString(TEST_DATA, "shippingInfo.firstName"),
+                TestDataReader.getString(TEST_DATA, "shippingInfo.lastName"),
+                TestDataReader.getString(TEST_DATA, "shippingInfo.zipCode"));
         stepOne.clickContinue();
 
         CheckoutStepTwoPage stepTwo = new CheckoutStepTwoPage(driver);

@@ -2,15 +2,19 @@
 // ABOUTME: Covers menu open/close, all navigation links, logout, and app state reset.
 package com.saucedemo.tests;
 
+import com.google.gson.JsonObject;
 import com.saucedemo.config.ConfigReader;
 import com.saucedemo.pages.LoginPage;
 import com.saucedemo.pages.NavigationPage;
 import com.saucedemo.pages.ProductsPage;
 import com.saucedemo.utils.ExtentReportManager;
+import com.saucedemo.utils.TestDataReader;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class NavigationTest extends BaseTest {
+
+    private static final JsonObject TEST_DATA = TestDataReader.load("navigation-test-data.json");
 
     private void login() {
         LoginPage loginPage = new LoginPage(driver);
@@ -52,7 +56,8 @@ public class NavigationTest extends BaseTest {
         nav.openMenu();
         nav.clickAbout();
 
-        Assert.assertTrue(driver.getCurrentUrl().contains("saucelabs.com"),
+        Assert.assertTrue(driver.getCurrentUrl().contains(
+                        TestDataReader.getString(TEST_DATA, "urlFragments.aboutPage")),
                 "Clicking 'About' should navigate to the Sauce Labs website");
     }
 
@@ -76,7 +81,8 @@ public class NavigationTest extends BaseTest {
         login();
 
         ProductsPage productsPage = new ProductsPage(driver);
-        productsPage.addProductToCartByName("Sauce Labs Backpack");
+        productsPage.addProductToCartByName(
+                TestDataReader.getString(TEST_DATA, "products.backpack"));
         Assert.assertEquals(productsPage.getCartItemCount(), 1,
                 "Cart badge should show 1 after adding an item");
 

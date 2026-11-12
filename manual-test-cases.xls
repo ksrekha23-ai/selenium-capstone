@@ -1,0 +1,538 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--[if gte mso 9]>
+<xml>
+<x:ExcelWorkbook>
+<x:ExcelWorksheets>
+<x:ExcelWorksheet>
+<x:Name>Manual Test Cases</x:Name>
+<x:WorksheetOptions>
+<x:FitToPage/>
+<x:Print>
+<x:FitHeight>0</x:FitHeight>
+</x:Print>
+</x:WorksheetOptions>
+</x:ExcelWorksheet>
+</x:ExcelWorksheets>
+</x:ExcelWorkbook>
+</xml>
+<![endif]-->
+<style>
+  table { border-collapse: collapse; }
+  th, td { border: 1px solid #333333; padding: 6px 10px; vertical-align: top; font-family: Calibri, Arial, sans-serif; font-size: 11pt; }
+  th { background-color: #4472C4; color: #FFFFFF; font-weight: bold; text-align: center; }
+  .module-header { background-color: #D9E2F3; font-weight: bold; }
+  .pass { color: green; font-weight: bold; }
+  .fail { color: red; font-weight: bold; }
+  td.wrap { white-space: normal; word-wrap: break-word; }
+</style>
+</head>
+<body>
+<table>
+  <tr>
+    <th>TC ID</th>
+    <th>Module</th>
+    <th>Test Case Name</th>
+    <th>Priority</th>
+    <th>Type</th>
+    <th>Preconditions</th>
+    <th>Test Steps</th>
+    <th>Test Data</th>
+    <th>Expected Result</th>
+    <th>Status</th>
+  </tr>
+
+  <!-- ==================== LOGIN MODULE ==================== -->
+  <tr class="module-header">
+    <td colspan="10">Module 1: Login</td>
+  </tr>
+
+  <tr>
+    <td>TC_LOGIN_001</td>
+    <td>Login</td>
+    <td>Valid Login with Standard User</td>
+    <td>High</td>
+    <td>Smoke</td>
+    <td>Browser is open. SauceDemo login page (https://www.saucedemo.com) is loaded.</td>
+    <td class="wrap">1. Enter valid username in the Username field.<br>2. Enter valid password in the Password field.<br>3. Click the Login button.</td>
+    <td class="wrap">Username: standard_user<br>Password: secret_sauce</td>
+    <td class="wrap">1. User is redirected to the Products page.<br>2. Products page header is displayed.<br>3. URL contains "inventory".</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_LOGIN_002</td>
+    <td>Login</td>
+    <td>Login with Invalid Password</td>
+    <td>High</td>
+    <td>Smoke</td>
+    <td>Browser is open. SauceDemo login page is loaded.</td>
+    <td class="wrap">1. Enter valid username in the Username field.<br>2. Enter an incorrect password in the Password field.<br>3. Click the Login button.</td>
+    <td class="wrap">Username: standard_user<br>Password: wrong_password</td>
+    <td class="wrap">1. An error message is displayed on the login page.<br>2. Error message contains "Username and password do not match".<br>3. User remains on the login page.</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_LOGIN_003</td>
+    <td>Login</td>
+    <td>Login with Empty Fields</td>
+    <td>High</td>
+    <td>Smoke</td>
+    <td>Browser is open. SauceDemo login page is loaded.</td>
+    <td class="wrap">1. Leave both Username and Password fields empty.<br>2. Click the Login button.</td>
+    <td class="wrap">Username: (empty)<br>Password: (empty)</td>
+    <td class="wrap">1. An error message is displayed on the login page.<br>2. Error message contains "Username is required".</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_LOGIN_004</td>
+    <td>Login</td>
+    <td>Login with Empty Password</td>
+    <td>High</td>
+    <td>Smoke</td>
+    <td>Browser is open. SauceDemo login page is loaded.</td>
+    <td class="wrap">1. Enter valid username in the Username field.<br>2. Leave the Password field empty.<br>3. Click the Login button.</td>
+    <td class="wrap">Username: standard_user<br>Password: (empty)</td>
+    <td class="wrap">1. An error message is displayed on the login page.<br>2. Error message contains "Password is required".</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_LOGIN_005</td>
+    <td>Login</td>
+    <td>Login with Locked Out User</td>
+    <td>High</td>
+    <td>Smoke</td>
+    <td>Browser is open. SauceDemo login page is loaded.</td>
+    <td class="wrap">1. Enter locked out username in the Username field.<br>2. Enter valid password in the Password field.<br>3. Click the Login button.</td>
+    <td class="wrap">Username: locked_out_user<br>Password: secret_sauce</td>
+    <td class="wrap">1. An error message is displayed on the login page.<br>2. Error message contains "locked out".<br>3. User is not logged in.</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_LOGIN_006</td>
+    <td>Login</td>
+    <td>Logout and Browser Back Button</td>
+    <td>High</td>
+    <td>Smoke</td>
+    <td>Browser is open. SauceDemo login page is loaded.</td>
+    <td class="wrap">1. Login with valid credentials (standard_user / secret_sauce).<br>2. Verify the Products page is displayed.<br>3. Click the hamburger menu icon to open the sidebar.<br>4. Click the "Logout" link in the sidebar menu.<br>5. Verify the login page is displayed.<br>6. Click the browser's Back button.</td>
+    <td class="wrap">Username: standard_user<br>Password: secret_sauce</td>
+    <td class="wrap">1. After login, Products page is displayed.<br>2. After logout, login page is displayed.<br>3. After clicking browser Back button, user should NOT be on the inventory page (URL should not contain "inventory").</td>
+    <td></td>
+  </tr>
+
+  <!-- ==================== PRODUCT LISTING MODULE ==================== -->
+  <tr class="module-header">
+    <td colspan="10">Module 2: Product Listing</td>
+  </tr>
+
+  <tr>
+    <td>TC_PRODLIST_001</td>
+    <td>Product Listing</td>
+    <td>Verify Product Count</td>
+    <td>Medium</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. Observe the Products page.<br>3. Count the number of products displayed.</td>
+    <td class="wrap">Expected count: 6</td>
+    <td class="wrap">1. Products page displays exactly 6 products.</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_PRODLIST_002</td>
+    <td>Product Listing</td>
+    <td>Unauthenticated User Cannot Access Products Page</td>
+    <td>High</td>
+    <td>Regression</td>
+    <td>Browser is open. User is NOT logged in.</td>
+    <td class="wrap">1. Without logging in, navigate directly to https://www.saucedemo.com/inventory.html.<br>2. Observe the page displayed.</td>
+    <td class="wrap">URL: https://www.saucedemo.com/inventory.html</td>
+    <td class="wrap">1. User is redirected to the login page.<br>2. The login page is displayed.<br>3. URL does not contain "inventory".</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_PRODLIST_003</td>
+    <td>Product Listing</td>
+    <td>Sort Products by Name A to Z</td>
+    <td>Medium</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. On the Products page, locate the sort dropdown.<br>3. Select "Name (A to Z)" from the sort dropdown.<br>4. Observe the product names displayed.</td>
+    <td class="wrap">Sort option: Name (A to Z)</td>
+    <td class="wrap">1. Products are listed in alphabetical order (A to Z).<br>2. Each product name is alphabetically equal to or before the next product name.</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_PRODLIST_004</td>
+    <td>Product Listing</td>
+    <td>Sort Products by Name Z to A</td>
+    <td>Medium</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. On the Products page, locate the sort dropdown.<br>3. Select "Name (Z to A)" from the sort dropdown.<br>4. Observe the product names displayed.</td>
+    <td class="wrap">Sort option: Name (Z to A)</td>
+    <td class="wrap">1. Products are listed in reverse alphabetical order (Z to A).<br>2. Each product name is alphabetically equal to or after the next product name.</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_PRODLIST_005</td>
+    <td>Product Listing</td>
+    <td>Sort Products by Price Low to High</td>
+    <td>Medium</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. On the Products page, locate the sort dropdown.<br>3. Select "Price (low to high)" from the sort dropdown.<br>4. Observe the product prices displayed.</td>
+    <td class="wrap">Sort option: Price (low to high)</td>
+    <td class="wrap">1. Products are listed with prices in ascending order.<br>2. Each product price is less than or equal to the next product's price.</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_PRODLIST_006</td>
+    <td>Product Listing</td>
+    <td>Sort Products by Price High to Low</td>
+    <td>Medium</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. On the Products page, locate the sort dropdown.<br>3. Select "Price (high to low)" from the sort dropdown.<br>4. Observe the product prices displayed.</td>
+    <td class="wrap">Sort option: Price (high to low)</td>
+    <td class="wrap">1. Products are listed with prices in descending order.<br>2. Each product price is greater than or equal to the next product's price.</td>
+    <td></td>
+  </tr>
+
+  <!-- ==================== PRODUCT DETAIL MODULE ==================== -->
+  <tr class="module-header">
+    <td colspan="10">Module 3: Product Detail</td>
+  </tr>
+
+  <tr>
+    <td>TC_PRODDET_001</td>
+    <td>Product Detail</td>
+    <td>Navigate to Product Detail Page</td>
+    <td>Medium</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. On the Products page, click the name of the first product.<br>3. Observe the product detail page.</td>
+    <td class="wrap">Click on: First product in the list</td>
+    <td class="wrap">1. Product detail page is displayed.<br>2. Product name is shown (non-empty).<br>3. URL contains "inventory-item".</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_PRODDET_002</td>
+    <td>Product Detail</td>
+    <td>Unauthenticated User Cannot Access Product Detail Page</td>
+    <td>High</td>
+    <td>Regression</td>
+    <td>Browser is open. User is NOT logged in.</td>
+    <td class="wrap">1. Without logging in, navigate directly to https://www.saucedemo.com/inventory-item.html?id=4.<br>2. Observe the page displayed.</td>
+    <td class="wrap">URL: https://www.saucedemo.com/inventory-item.html?id=4</td>
+    <td class="wrap">1. User is redirected to the login page.<br>2. The login page is displayed.<br>3. URL does not contain "inventory-item".</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_PRODDET_003</td>
+    <td>Product Detail</td>
+    <td>Verify Product Detail Matches Listing</td>
+    <td>Medium</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. On the Products page, note the name and price of the first product.<br>3. Click on the first product name to open its detail page.<br>4. Compare the product name and price on the detail page with those noted in step 2.</td>
+    <td class="wrap">Compare: First product's name and price between listing and detail pages</td>
+    <td class="wrap">1. Product name on the detail page matches the name on the listing page.<br>2. Product price on the detail page matches the price on the listing page.</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_PRODDET_004</td>
+    <td>Product Detail</td>
+    <td>Add to Cart from Product Detail Page</td>
+    <td>Medium</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. Click on the first product name to open its detail page.<br>3. Click the "Add to Cart" button on the detail page.<br>4. Observe the button state.</td>
+    <td class="wrap">Click on: First product in the list</td>
+    <td class="wrap">1. After clicking "Add to Cart", the button changes to "Remove".<br>2. The "Remove" button is displayed, confirming the item was added to the cart.</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_PRODDET_005</td>
+    <td>Product Detail</td>
+    <td>Navigate Back to Products from Detail Page</td>
+    <td>Medium</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. A product detail page is open.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. Click on the first product name to open its detail page.<br>3. Click the "Back to products" button.<br>4. Observe the page displayed.</td>
+    <td class="wrap">N/A</td>
+    <td class="wrap">1. User is navigated back to the Products page.<br>2. Products page header is displayed.</td>
+    <td></td>
+  </tr>
+
+  <!-- ==================== CART MODULE ==================== -->
+  <tr class="module-header">
+    <td colspan="10">Module 4: Shopping Cart</td>
+  </tr>
+
+  <tr>
+    <td>TC_CART_001</td>
+    <td>Cart</td>
+    <td>Cart is Empty Before Adding Items</td>
+    <td>Medium</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. Click the shopping cart icon without adding any products.<br>3. Observe the cart page.</td>
+    <td class="wrap">N/A</td>
+    <td class="wrap">1. Cart page is displayed.<br>2. Cart is empty (no items listed).</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_CART_002</td>
+    <td>Cart</td>
+    <td>Add Single Item to Cart</td>
+    <td>High</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. On the Products page, click "Add to Cart" for "Sauce Labs Backpack".<br>3. Click the shopping cart icon.<br>4. Observe the cart page.</td>
+    <td class="wrap">Product: Sauce Labs Backpack</td>
+    <td class="wrap">1. Cart contains exactly 1 item.<br>2. The item name is "Sauce Labs Backpack".</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_CART_003</td>
+    <td>Cart</td>
+    <td>Add Multiple Items to Cart</td>
+    <td>High</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. On the Products page, click "Add to Cart" for "Sauce Labs Backpack".<br>3. Click "Add to Cart" for "Sauce Labs Bike Light".<br>4. Click the shopping cart icon.<br>5. Observe the cart page.</td>
+    <td class="wrap">Products: Sauce Labs Backpack, Sauce Labs Bike Light</td>
+    <td class="wrap">1. Cart contains exactly 2 items.</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_CART_004</td>
+    <td>Cart</td>
+    <td>Remove Item from Cart</td>
+    <td>High</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. Add "Sauce Labs Backpack" to the cart.<br>3. Click the shopping cart icon.<br>4. Verify the cart contains 1 item.<br>5. Click the "Remove" button next to "Sauce Labs Backpack".<br>6. Observe the cart page.</td>
+    <td class="wrap">Product: Sauce Labs Backpack</td>
+    <td class="wrap">1. Before removal, cart shows 1 item.<br>2. After removal, cart is empty.</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_CART_005</td>
+    <td>Cart</td>
+    <td>Verify Item Details in Cart</td>
+    <td>Medium</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. Add "Sauce Labs Backpack" to the cart.<br>3. Click the shopping cart icon.<br>4. Verify the product name displayed in the cart.<br>5. Verify the product price displayed in the cart.</td>
+    <td class="wrap">Product: Sauce Labs Backpack<br>Expected Price: $29.99</td>
+    <td class="wrap">1. Item name contains "Backpack".<br>2. Item price is "$29.99".</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_CART_006</td>
+    <td>Cart</td>
+    <td>Continue Shopping from Cart</td>
+    <td>Medium</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Cart page is displayed with at least one item.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. Add "Sauce Labs Backpack" to the cart.<br>3. Click the shopping cart icon to go to the cart page.<br>4. Click the "Continue Shopping" button.<br>5. Observe the page displayed.</td>
+    <td class="wrap">N/A</td>
+    <td class="wrap">1. User is navigated back to the Products page.<br>2. URL contains "inventory.html".</td>
+    <td></td>
+  </tr>
+
+  <!-- ==================== CHECKOUT MODULE ==================== -->
+  <tr class="module-header">
+    <td colspan="10">Module 5: Checkout</td>
+  </tr>
+
+  <tr>
+    <td>TC_CHKOUT_001</td>
+    <td>Checkout</td>
+    <td>Complete Checkout Flow</td>
+    <td>High</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. "Sauce Labs Backpack" is in the cart.</td>
+    <td class="wrap">1. Login and add "Sauce Labs Backpack" to cart.<br>2. Go to cart and click "Checkout".<br>3. Enter first name, last name, and zip code in the shipping info form.<br>4. Click "Continue".<br>5. On the checkout overview page, click "Finish".<br>6. Observe the order confirmation page.</td>
+    <td class="wrap">First Name: Test<br>Last Name: User<br>Zip Code: 12345</td>
+    <td class="wrap">1. Order confirmation page is displayed.<br>2. Confirmation header reads "Thank you for your order!".</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_CHKOUT_002</td>
+    <td>Checkout</td>
+    <td>Empty Checkout Form Submission</td>
+    <td>High</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Cart has an item. Checkout step one page is displayed.</td>
+    <td class="wrap">1. Login and add "Sauce Labs Backpack" to cart.<br>2. Go to cart and click "Checkout".<br>3. Leave all fields empty.<br>4. Click "Continue".</td>
+    <td class="wrap">First Name: (empty)<br>Last Name: (empty)<br>Zip Code: (empty)</td>
+    <td class="wrap">1. An error message is displayed.<br>2. Error message reads "Error: First Name is required".</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_CHKOUT_003</td>
+    <td>Checkout</td>
+    <td>Checkout with Missing Last Name</td>
+    <td>High</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Cart has an item. Checkout step one page is displayed.</td>
+    <td class="wrap">1. Login and add "Sauce Labs Backpack" to cart.<br>2. Go to cart and click "Checkout".<br>3. Enter first name only.<br>4. Leave last name and zip code empty.<br>5. Click "Continue".</td>
+    <td class="wrap">First Name: Test<br>Last Name: (empty)<br>Zip Code: (empty)</td>
+    <td class="wrap">1. An error message is displayed.<br>2. Error message reads "Error: Last Name is required".</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_CHKOUT_004</td>
+    <td>Checkout</td>
+    <td>Checkout with Missing Zip Code</td>
+    <td>High</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Cart has an item. Checkout step one page is displayed.</td>
+    <td class="wrap">1. Login and add "Sauce Labs Backpack" to cart.<br>2. Go to cart and click "Checkout".<br>3. Enter first name and last name.<br>4. Leave zip code empty.<br>5. Click "Continue".</td>
+    <td class="wrap">First Name: Test<br>Last Name: User<br>Zip Code: (empty)</td>
+    <td class="wrap">1. An error message is displayed.<br>2. Error message reads "Error: Postal Code is required".</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_CHKOUT_005</td>
+    <td>Checkout</td>
+    <td>Verify Order Summary</td>
+    <td>Medium</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Cart has "Sauce Labs Backpack". Checkout step one is completed.</td>
+    <td class="wrap">1. Login and add "Sauce Labs Backpack" to cart.<br>2. Go to cart and click "Checkout".<br>3. Fill in shipping info (Test / User / 12345) and click "Continue".<br>4. On the checkout overview page, verify the items listed.</td>
+    <td class="wrap">First Name: Test<br>Last Name: User<br>Zip Code: 12345</td>
+    <td class="wrap">1. Order summary shows exactly 1 item.<br>2. The item name contains "Backpack".</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_CHKOUT_006</td>
+    <td>Checkout</td>
+    <td>Verify Price Total Calculation</td>
+    <td>High</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Cart has "Sauce Labs Backpack". Checkout step one is completed.</td>
+    <td class="wrap">1. Login and add "Sauce Labs Backpack" to cart.<br>2. Go to cart and click "Checkout".<br>3. Fill in shipping info (Test / User / 12345) and click "Continue".<br>4. On the checkout overview page, note the subtotal, tax, and total.<br>5. Verify the total equals subtotal + tax.</td>
+    <td class="wrap">First Name: Test<br>Last Name: User<br>Zip Code: 12345</td>
+    <td class="wrap">1. The total price equals subtotal + tax (within $0.01 tolerance).</td>
+    <td></td>
+  </tr>
+
+  <!-- ==================== NAVIGATION MODULE ==================== -->
+  <tr class="module-header">
+    <td colspan="10">Module 6: Navigation</td>
+  </tr>
+
+  <tr>
+    <td>TC_NAV_001</td>
+    <td>Navigation</td>
+    <td>Sidebar Menu Open and Close</td>
+    <td>Medium</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. Click the hamburger menu icon (top-left).<br>3. Observe the sidebar menu.<br>4. Click the close (X) button on the sidebar.</td>
+    <td class="wrap">N/A</td>
+    <td class="wrap">1. After clicking the menu icon, the sidebar menu is visible/open.<br>2. After clicking the close button, the sidebar menu is closed.</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_NAV_002</td>
+    <td>Navigation</td>
+    <td>All Items Navigation Link</td>
+    <td>Medium</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. Click the hamburger menu icon to open the sidebar.<br>3. Click "All Items" link in the sidebar.</td>
+    <td class="wrap">N/A</td>
+    <td class="wrap">1. User is navigated to the Products page.<br>2. Products page header is displayed.</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_NAV_003</td>
+    <td>Navigation</td>
+    <td>About Navigation Link</td>
+    <td>Medium</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. Click the hamburger menu icon to open the sidebar.<br>3. Click "About" link in the sidebar.<br>4. Observe the page navigated to.</td>
+    <td class="wrap">N/A</td>
+    <td class="wrap">1. User is navigated to the Sauce Labs website.<br>2. URL contains "saucelabs.com".</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_NAV_004</td>
+    <td>Navigation</td>
+    <td>Logout Navigation Link</td>
+    <td>High</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. Click the hamburger menu icon to open the sidebar.<br>3. Click "Logout" link in the sidebar.<br>4. Observe the page displayed.</td>
+    <td class="wrap">N/A</td>
+    <td class="wrap">1. User is logged out.<br>2. Login page is displayed.</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>TC_NAV_005</td>
+    <td>Navigation</td>
+    <td>Reset App State</td>
+    <td>Medium</td>
+    <td>Regression</td>
+    <td>User is logged in as standard_user. Products page is displayed.</td>
+    <td class="wrap">1. Login with standard_user credentials.<br>2. Add "Sauce Labs Backpack" to the cart.<br>3. Verify the cart badge shows 1.<br>4. Click the hamburger menu icon to open the sidebar.<br>5. Click "Reset App State" in the sidebar.<br>6. Close the sidebar menu.<br>7. Observe the cart badge.</td>
+    <td class="wrap">Product: Sauce Labs Backpack</td>
+    <td class="wrap">1. After adding the item, cart badge shows 1.<br>2. After resetting app state, cart badge shows 0 (or is not displayed).</td>
+    <td></td>
+  </tr>
+
+  <!-- ==================== END TO END MODULE ==================== -->
+  <tr class="module-header">
+    <td colspan="10">Module 7: End-to-End</td>
+  </tr>
+
+  <tr>
+    <td>TC_E2E_001</td>
+    <td>End-to-End</td>
+    <td>Full Happy Path - Complete Purchase Flow</td>
+    <td>Critical</td>
+    <td>Smoke</td>
+    <td>Browser is open. SauceDemo login page is loaded.</td>
+    <td class="wrap">1. Navigate to https://www.saucedemo.com.<br>2. Login with valid credentials.<br>3. Verify the Products page is displayed.<br>4. Add "Sauce Labs Backpack" to the cart.<br>5. Add "Sauce Labs Bike Light" to the cart.<br>6. Verify cart badge shows 2.<br>7. Click the shopping cart icon.<br>8. Verify cart contains 2 items.<br>9. Click "Checkout".<br>10. Enter shipping info: First Name = "Test", Last Name = "User", Zip Code = "12345".<br>11. Click "Continue".<br>12. Verify checkout overview shows 2 items.<br>13. Verify total = subtotal + tax.<br>14. Click "Finish".<br>15. Verify order confirmation page is displayed.<br>16. Verify confirmation header shows "Thank you for your order!".<br>17. Click "Back Home".<br>18. Verify the Products page is displayed.</td>
+    <td class="wrap">Username: standard_user<br>Password: secret_sauce<br>Products: Sauce Labs Backpack, Sauce Labs Bike Light<br>First Name: Test<br>Last Name: User<br>Zip Code: 12345</td>
+    <td class="wrap">1. Login succeeds, Products page is displayed.<br>2. Both items are added; cart badge shows 2.<br>3. Cart page shows 2 items.<br>4. Shipping info form accepts input, navigates to checkout overview.<br>5. Checkout overview shows 2 items with correct total (subtotal + tax).<br>6. Order confirmation page displays "Thank you for your order!".<br>7. Clicking "Back Home" returns to the Products page.</td>
+    <td></td>
+  </tr>
+
+</table>
+</body>
+</html>
